@@ -9,7 +9,7 @@ Gin+GORM+gRPC+rocketmq+nacos支付中台项目
 熔断：Sentinel
 计算库：shopspring/decimal
 
-
+```
 pay-center
 ├── api
 │   ├── http
@@ -64,3 +64,5 @@ pay-center
 │       └── main.go
 │
 └── docs
+```
+
