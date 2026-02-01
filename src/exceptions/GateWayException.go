@@ -15,7 +15,7 @@ type GatewayException struct {
 	// 原始响应数据
 	raw map[string]interface{}
 
-	// 底层错误（可选）
+	// 底层错误
 	err error
 }
 
