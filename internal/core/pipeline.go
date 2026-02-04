@@ -11,9 +11,9 @@ func NewPipeline(ps ...Plugin) *Pipeline {
 
 func (p *Pipeline) Execute(r *Rocket) (Result, error) {
 	for _, pl := range p.plugins {
-		if err := pl.Handle(r); err != nil {
+		if err := pl.Web(r); err != nil {
 			return Result{}, err
 		}
 	}
-	return r.Result, nil
+	return Result{}, nil
 }

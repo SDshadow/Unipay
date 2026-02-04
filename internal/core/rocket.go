@@ -1,17 +1,27 @@
 package core
 
-// Rocket 是支付执行过程的上下文载体，插件之间通过它传递数据。
 type Rocket struct {
-	Params   map[string]any // 原始业务参数
-	Payload  map[string]any // 支付协议参数（逐步构建）
-	Response any            // 第三方返回结果
-	Result   Result         // 统一支付结果
+	Params  map[string]any // 原始输入
+	Payload map[string]any // 构建后的请求负载
+
 }
 
 func NewRocket(params map[string]any) *Rocket {
 	return &Rocket{
 		Params:  params,
-		Payload: map[string]any{},
-		Result:  Result{},
+		Payload: make(map[string]any),
 	}
+}
+
+func (r *Rocket) MergePayload(payload map[string]any) {
+	if r.Payload == nil {
+		r.Payload = make(map[string]any)
+	}
+	for k, v := range payload {
+		r.Payload[k] = v
+	}
+}
+
+func (r *Rocket) SetParams(params map[string]any) {
+	r.Params = params
 }
