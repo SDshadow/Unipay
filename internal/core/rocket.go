@@ -1,9 +1,19 @@
 package core
 
-type Rocket struct {
-	Params  map[string]any // 原始输入
-	Payload map[string]any // 构建后的请求负载
+import (
+	"context"
+	"net/http"
+)
 
+type Direction interface {
+	Execute(ctx context.Context, r *Rocket) (*Rocket, error)
+}
+
+type Rocket struct {
+	Params    map[string]any
+	Payload   map[string]any
+	Radar     *http.Request
+	Direction Direction
 }
 
 func NewRocket(params map[string]any) *Rocket {
