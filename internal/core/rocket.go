@@ -31,7 +31,3 @@ func (r *Rocket) MergePayload(payload map[string]any) {
 		r.Payload[k] = v
 	}
 }
-
-func (r *Rocket) SetParams(params map[string]any) {
-	r.Params = params
-}

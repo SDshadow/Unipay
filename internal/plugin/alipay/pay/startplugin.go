@@ -7,9 +7,8 @@ import (
 
 type StartPlugin struct{}
 
-func (s StartPlugin) Handle(r *core.Rocket, next core.Next) error {
+func (s *StartPlugin) Handle(r *core.Rocket, next core.Next) {
 	r.MergePayload(getPayload(r.Params))
-	return nil
 }
 
 func getPayload(params map[string]any) map[string]any {
