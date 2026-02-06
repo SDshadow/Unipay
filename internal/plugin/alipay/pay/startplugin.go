@@ -2,13 +2,17 @@ package alipay
 
 import (
 	"Unipay/internal/core"
+	"context"
 	"time"
 )
 
 type StartPlugin struct{}
 
-func (s *StartPlugin) Handle(r *core.Rocket, next core.Next) {
+func (s *StartPlugin) Assembly(ctx context.Context, r *core.Rocket, next core.Next) (*core.Rocket, error) {
 	r.MergePayload(getPayload(r.Params))
+
+	r, err := next(ctx, r)
+	return r, err
 }
 
 func getPayload(params map[string]any) map[string]any {
@@ -23,8 +27,8 @@ func getPayload(params map[string]any) map[string]any {
 		"charset":     "utf-8",
 		"sign_type":   "RSA2",
 		"sign":        "",
-		"timestamp":   time.Now().Format("2026-01-02 15:04:05"),
+		"timestamp":   time.Now().Format("2006-01-02 15:04:05"),
 		"version":     "1.0",
-		"biz_content": map[string]any{},
+		"biz_content": params,
 	}
 }
