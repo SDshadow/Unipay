@@ -1,48 +1,4 @@
-```
-rocket-pay/
-├── cmd/
-│   └── server/
-│       └── main.go              # HTTP 服务入口
-│
-├── internal/
-│   ├── core/                    # ⭐ 核心抽象（重点）
-│   │   ├── rocket.go            # 执行上下文（状态 + 数据）
-│   │   ├── plugin.go            # Plugin 接口
-│   │   ├── pipeline.go          # Plugin 执行管道
-│   │   └── result.go            # 统一结果模型
-│   │
-│   ├── provider/                # ⭐ 支付渠道抽象
-│   │   ├── provider.go          # Provider 接口
-│   │   ├── alipay/
-│   │   │   ├── pay.go            # 支付入口（组装插件）
-│   │   │   ├── build_plugin.go   # 参数构建
-│   │   │   ├── sign_plugin.go    # 签名
-│   │   │   ├── http_plugin.go    # HTTP 请求
-│   │   │   ├── verify_plugin.go  # 验签
-│   │   │   └── parse_plugin.go   # 响应解析
-│   │   └── wechat/
-│   │       └── ...               # 同结构
-│   │
-│   ├── service/                 # ⭐ 业务用例层
-│   │   └── payment_service.go
-│   │
-│   └── model/                   # 业务模型
-│       ├── order.go
-│       ├── payment.go
-│       └── callback.go
-│
-├── api/
-│   ├── handler/
-│   │   └── payment_handler.go
-│   └── router.go
-│
-├── tests/
-│   ├── payment_flow_test.go     # ⭐ 核心流程测试
-│   └── provider_mock.go
-│
-├── go.mod
-├── README.md
-```
+
 
 # 架构设计说明（Architecture Design）
 

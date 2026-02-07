@@ -1,0 +1,50 @@
+{
+  "alipay": {
+    "default": {
+      "app_id": "2016082000295641",
+      "app_secret_cert": "UfIUdUmLoLc1s/VdBHku+JEd0YmEY+p4sjmcRnlu4AlzLxkWUTTg==",
+      "app_public_cert_path": "/Users/pay/cert/appCertPublicKey_2016082000295641.crt",
+      "alipay_public_cert_path": "/Users/pay/cert/alipayCertPublicKey_RSA2.crt",
+      "alipay_root_cert_path": "/Users/pay/cert/alipayRootCert.crt",
+      "return_url": "https://t.cn/alipay/return",
+      "notify_url": "https://t.cn/alipay/notify",
+      "app_auth_token": "",
+      "service_provider_id": "",
+      "mode": "MODE_NORMAL"
+    }
+  },
+
+  "wechat": {
+    "default": {
+      "mch_id": "",
+      "mch_secret_key_v2": "",
+      "mch_secret_key": "",
+      "mch_secret_cert": "",
+      "mch_public_cert_path": "",
+      "notify_url": "https://t.cn/wechat/notify",
+      "mp_app_id": "2016082000291234",
+      "mini_app_id": "",
+      "app_id": "",
+      "sub_mp_app_id": "",
+      "sub_app_id": "",
+      "sub_mini_app_id": "",
+      "sub_mch_id": "",
+      "wechat_public_cert_path": {
+        "45F59D4DABF31918AFCEC556D5D2C6E376675D57": "./Cert/wechatPublicKey.crt",
+        "PUB_KEY_ID_0000000000000024101100397200000006": "./Cert/publickey.pem"
+      },
+      "mode": "MODE_NORMAL"
+    }
+  },
+  "logger": {
+    "enable": false,
+    "file": "./logs/pay.log",
+    "level": "info",
+    "type": "single",
+    "max_file": 30
+  },
+  "http": {
+    "timeout": 5.0,
+    "connect_timeout": 5.0
+  }
+}

@@ -4,33 +4,56 @@ import (
 	"context"
 	"sync"
 
-	"Unipay/internal/core"
-	"Unipay/internal/model"
 )
 
-// Provider 负责为某个支付渠道组装 Plugin Pipeline 并执行
+type Params map[string]any
+
 type Provider interface {
-	Pay(ctx context.Context, order model.Order) (core.Result, error)
+	Name() string
+}
+type PayProvider interface {
+	Provider
+	Pay(ctx context.Context, params Params) error
+}
+type RefundProvider interface {
+	Provider
+	Refund(ctx context.Context, params Params) error
 }
 
-// ProviderFactory 简单工厂，用于根据渠道获取 Provider
 type ProviderFactory struct {
 	providers map[string]Provider
 	mu        sync.RWMutex
 }
 
 func NewProviderFactory() *ProviderFactory {
-	return &ProviderFactory{providers: map[string]Provider{}}
+	return &ProviderFactory{
+		providers: make(map[string]Provider),
+	}
 }
-
-func (f *ProviderFactory) Register(name string, p Provider) {
+func (f *ProviderFactory) Register(p Provider) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.providers[name] = p
+	f.providers[p.Name()] = p
 }
-
-func (f *ProviderFactory) Get(name string) Provider {
+func (f *ProviderFactory) Get(name string) (Provider, bool) {
 	f.mu.RLock()
 	defer f.mu.RUnlock()
-	return f.providers[name]
+	p, ok := f.providers[name]
+	return p, ok
+}
+func (f *ProviderFactory) Pay(name string) (PayProvider, bool) {
+	p, ok := f.Get(name)
+	if !ok {
+		return nil, false
+	}
+	pp, ok := p.(PayProvider)
+	return pp, ok
+}
+func (f *ProviderFactory) Refund(name string) (RefundProvider, bool) {
+	p, ok := f.Get(name)
+	if !ok {
+		return nil, false
+	}
+	rp, ok := p.(RefundProvider)
+	return rp, ok
 }

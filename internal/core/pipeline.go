@@ -1,19 +1,31 @@
 package core
 
-// Pipeline 负责按序执行 Plugin 链
+import (
+	"context"
+)
+
 type Pipeline struct {
 	plugins []Plugin
 }
 
-func NewPipeline(ps ...Plugin) *Pipeline {
-	return &Pipeline{plugins: ps}
+func NewPipeline(plugins ...Plugin) *Pipeline {
+	return &Pipeline{plugins: plugins}
 }
 
-func (p *Pipeline) Execute(r *Rocket) (Result, error) {
-	for _, pl := range p.plugins {
-		if err := pl.Handle(r); err != nil {
-			return Result{}, err
+func (p *Pipeline) Execute(ctx context.Context, r *Rocket) (*Rocket, error) {
+	var chain Next
+
+	index := 0
+	chain = func(ctx context.Context, r *Rocket) (*Rocket, error) {
+		if index >= len(p.plugins) {
+			return r, nil
 		}
+
+		plugin := p.plugins[index]
+		index++
+
+		return plugin.Assembly(ctx, r, chain)
 	}
-	return r.Result, nil
+
+	return chain(ctx, r)
 }
