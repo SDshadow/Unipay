@@ -12,6 +12,9 @@ func (p BuildPlugin) Assembly(ctx context.Context, r *core.Rocket, next core.Nex
 		"method": "alipay.trade.page.pay",
 		"biz_content": map[string]any{
 			"product_code": "FAST_INSTANT_TRADE_PAY",
+			"out_trade_no": r.Params["out_trade_no"],
+			"total_amount": r.Params["total_amount"],
+			"subject":      r.Params["subject"],
 		},
 	})
 	return next(ctx, r)

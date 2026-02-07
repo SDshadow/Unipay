@@ -11,10 +11,13 @@ import (
 func main() {
 	plugin := core.NewPipeline(
 		&alipay.StartPlugin{},
-		&alipayweb.BuildPlugin{})
+		&alipayweb.BuildPlugin{},
+		&alipayweb.SignPlugin{},
+	)
 	rocket := core.NewRocket(map[string]any{
 		"out_trade_no": "20230618001",
 		"total_amount": "88.88",
+		"subject":      "iPhone6 16G",
 	})
 	result, _ := plugin.Execute(context.Background(), rocket)
 	fmt.Println(result.Payload)
