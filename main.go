@@ -2,12 +2,23 @@ package main
 
 import (
 	"Unipay/internal/core"
+	alipay "Unipay/internal/plugin/alipay/pay"
+	alipayweb "Unipay/internal/plugin/alipay/pay/web"
+	"context"
 	"fmt"
 )
 
 func main() {
-	// load config.json from repo root
-	_ = core.LoadFromFile("config.json")
-	config := core.Get("alipay", "default")
-	fmt.Println(config["app_id"])
+	plugin := core.NewPipeline(
+		&alipay.StartPlugin{},
+		&alipayweb.BuildPlugin{},
+		&alipayweb.SignPlugin{},
+	)
+	rocket := core.NewRocket(map[string]any{
+		"out_trade_no": "20230618001",
+		"total_amount": "88.88",
+		"subject":      "iPhone6 16G",
+	})
+	result, _ := plugin.Execute(context.Background(), rocket)
+	fmt.Println(result.Payload)
 }
