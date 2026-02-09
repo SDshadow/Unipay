@@ -12,7 +12,7 @@ func main() {
 	plugin := core.NewPipeline(
 		&alipay.StartPlugin{},
 		&alipayweb.BuildPlugin{},
-		&alipayweb.SignPlugin{},
+		&alipay.SignPlugin{},
 	)
 	rocket := core.NewRocket(map[string]any{
 		"out_trade_no": "20230618001",

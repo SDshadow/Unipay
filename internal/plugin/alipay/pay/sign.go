@@ -1,8 +1,9 @@
-package web
+package alipay
 
 import (
 	"Unipay/internal/core"
 	"context"
+	"encoding/base64"
 	"sort"
 	"strings"
 )
@@ -29,9 +30,10 @@ func sign(r *core.Rocket) string {
 		buf.WriteString("=")
 		buf.WriteString(r.Payload[k].(string))
 	}
-	return buf.String()
+	return base64.StdEncoding.EncodeToString([]byte(buf.String()))
 }
 
+// 过滤掉空值和sign参数，并对剩余参数进行排序
 func prepareSignString(r *core.Rocket) []string {
 	filtered := make([]string, 0)
 	for k, v := range r.Payload {
@@ -42,3 +44,14 @@ func prepareSignString(r *core.Rocket) []string {
 	sort.Strings(filtered)
 	return filtered
 }
+
+// func getPrivateKey() *rsa.PrivateKey {
+// 	_ = core.LoadFromFile("config.json")
+// 	config := core.Get("alipay", "default")
+// 	if config["private_key"] == nil {
+// 		// zap   log.Error("private_key is missing in config")
+// 		return nil
+// 	}
+// 	privateKeyStr := config["private_key"].(string)
+// 	privateKey, err := core.ParsePrivateKey(privateKeyStr)
+// }

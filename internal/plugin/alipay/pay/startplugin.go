@@ -29,6 +29,6 @@ func getPayload(params map[string]any) map[string]any {
 		"sign":        "",
 		"timestamp":   time.Now().Format("2006-01-02 15:04:05"),
 		"version":     "1.0",
-		"biz_content": params,
+		"biz_content": map[string]any{},
 	}
 }
